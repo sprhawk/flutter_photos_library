@@ -14,7 +14,9 @@
   if ([@"getPlatformVersion" isEqualToString:call.method]) {
     result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
   }
-  else if(@"getPermission" isEqualToString:call.method) {
+  else if([@"getAuthorizationStatus" isEqualToString:call.method]) {
+      PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+      result(@(status));
       
   }
   else if([@"getAssets" isEqualToString:call.method]) {
