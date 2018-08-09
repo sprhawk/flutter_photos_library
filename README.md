@@ -13,6 +13,7 @@ For help on editing plugin code, view the [documentation](https://flutter.io/pla
 
     1. PhotosLibrary.authorizeationStatus
     2. PhotosLibrary.requestAuthorization
+    3. PhotosLibrary.requestThumbnail
 
 ## Notes
 
