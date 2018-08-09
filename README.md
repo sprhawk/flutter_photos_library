@@ -1,6 +1,6 @@
 # photos_library
 
-A new flutter plugin project.
+A flutter plugin to get Photos information from system gallery ( iOS only for now )
 
 ## Getting Started
 
