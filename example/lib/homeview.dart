@@ -56,7 +56,6 @@ class HomeState extends State<HomeView> {
   }
 
   void loadAssets() async {
-    print("loadAssets");
     try {
       var assets = await PhotosLibrary.fetchMediaWithType(PhotosLibraryMediaType.Photo);
       setState(() {
