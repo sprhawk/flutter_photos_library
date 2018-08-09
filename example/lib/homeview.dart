@@ -32,7 +32,9 @@ class HomeState extends State<HomeView> {
     return Text(statusString);
   }
 
-  HomeState() {
+  @override
+  void initState() {
+    super.initState();
     refreshStatus();
   }
 
