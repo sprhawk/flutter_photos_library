@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photos_library/photos_library.dart';
+import 'package:photos_library/asset.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -9,20 +10,20 @@ class HomeView extends StatefulWidget {
 }
 
 class HomeState extends State<HomeView> {
-  final _assets = <String>[];
+  final _assets = List<Asset>();
   bool _firstRun = true;
-  AuthorizationStatus _status = AuthorizationStatus.NotDetermined;
+  PhotosLibraryAuthorizationStatus _status = PhotosLibraryAuthorizationStatus.NotDetermined;
 
   Widget buildStatus(BuildContext context) {
     String statusString = "Unknown status";
     switch (_status) {
-      case AuthorizationStatus.Authorized:
+      case PhotosLibraryAuthorizationStatus.Authorized:
         statusString = "Authorized";
         break;
-      case AuthorizationStatus.Denied:
+      case PhotosLibraryAuthorizationStatus.Denied:
         statusString = "Denied";
         break;
-      case AuthorizationStatus.NotDetermined:
+      case PhotosLibraryAuthorizationStatus.NotDetermined:
         statusString = "Not Determined";
         break;
       default:
@@ -54,6 +55,18 @@ class HomeState extends State<HomeView> {
     catch(e) {}
   }
 
+  void loadAssets() async {
+    print("loadAssets");
+    try {
+      var assets = await PhotosLibrary.fetchMediaWithType(PhotosLibraryMediaType.Photo);
+      setState(() {
+        _assets.clear();
+        _assets.addAll(assets);
+      });
+    }
+    catch(e) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     if(_firstRun) {
@@ -69,6 +82,10 @@ class HomeState extends State<HomeView> {
         RaisedButton(
           child: Text("Authorize"),
           onPressed: requestAuthorization,
+        ),
+        RaisedButton(
+          child: Text("Load Assets"),
+          onPressed: loadAssets,
         )
         /*
         Container(
