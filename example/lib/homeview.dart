@@ -44,6 +44,14 @@ class HomeState extends State<HomeView> {
     } catch (e) {}
   }
 
+  void requestAuthorization() async {
+    try {
+      _status = await PhotosLibrary.requestAuthorization;
+      setState(() {});
+    }
+    catch(e) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     if(_firstRun) {
@@ -57,8 +65,8 @@ class HomeState extends State<HomeView> {
         ),
         Center(child: buildStatus(context)),
         RaisedButton(
-          child: Text("Click me"),
-          onPressed: refreshStatus,
+          child: Text("Authorize"),
+          onPressed: requestAuthorization,
         )
         /*
         Container(

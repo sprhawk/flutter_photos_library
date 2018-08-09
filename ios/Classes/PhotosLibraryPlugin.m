@@ -19,6 +19,12 @@
       result(@(status));
       
   }
+  else if([@"requestAuthorization" isEqualToString:call.method]) {
+      [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+          result(@(status));
+      }];
+      
+  }
   else if([@"getAssets" isEqualToString:call.method]) {
       
   }
