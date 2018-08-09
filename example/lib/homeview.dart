@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:photos_library/photos_library.dart';
 import 'package:photos_library/asset.dart';
 
+import 'assetview.dart';
+
 class HomeView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -70,11 +72,7 @@ class HomeState extends State<HomeView> {
     return GridView.count(
             crossAxisCount: 3,
             children: List.generate(_assets.length, (index) {
-              return Center(
-                  child: Text(
-                '$index',
-                style: Theme.of(context).textTheme.headline,
-              ));
+              return AssetView(index, _assets[index]);
             }),
           );
   }

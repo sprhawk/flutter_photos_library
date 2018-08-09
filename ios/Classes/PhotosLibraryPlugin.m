@@ -1,19 +1,24 @@
 #import "PhotosLibraryPlugin.h"
 @import Photos;
 
+static NSString *const PhotosLibraryPluginChannelName = @"flutter.yang.me/photos_library";
+
 @interface PHAsset (FlutterObject)
 - (NSDictionary *)assetDictionary;
 @end
 
 @interface PhotosLibraryPlugin ()
+@property (nonatomic, readwrite, strong) NSObject<FlutterBinaryMessenger>* messenger;
 @end
 
 @implementation PhotosLibraryPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
     FlutterMethodChannel* channel = [FlutterMethodChannel
-                                     methodChannelWithName:@"flutter.yang.me/photos_library"
+                                     methodChannelWithName:PhotosLibraryPluginChannelName
                                      binaryMessenger:[registrar messenger]];
+    
     PhotosLibraryPlugin* instance = [[PhotosLibraryPlugin alloc] init];
+    instance.messenger = registrar.messenger;
     [registrar addMethodCallDelegate:instance channel:channel];
 }
 
@@ -82,6 +87,60 @@
     return FALSE;
 }
 
+- (BOOL)handleRequestThumbnail:(FlutterMethodCall*)call result:(FlutterResult)result {
+    if([@"requestThumbnail" isEqualToString:call.method]) {
+        if(call.arguments && [call.arguments isKindOfClass:[NSArray class]]) {
+            NSArray* arguments = call.arguments;
+            if(3 == arguments.count) {
+                if([arguments[0] isKindOfClass:[NSString class]]) {
+                    NSString *identifier = arguments[0];
+                    int width = -1;
+                    int height = -1;
+                    if([arguments[1] isKindOfClass:[NSNumber class]]) {
+                        NSNumber* widthN = arguments[1];
+                        width = widthN.intValue;
+                    }
+                    else {
+                        width = 200;
+                    }
+                    if([arguments[2] isKindOfClass:[NSNumber class]]) {
+                        NSNumber* heightN = arguments[2];
+                        height = heightN.intValue;
+                    }
+                    else {
+                        height = 200;
+                    }
+                    CGSize size = CGSizeMake(width * 1.0f, height * 1.0f);
+                    PHFetchResult<PHAsset *> * results = [PHAsset fetchAssetsWithLocalIdentifiers:@[identifier] options:nil];
+                    if (results.count > 0) {
+                        PHAsset* asset = results[0];
+                        PHImageRequestOptions* options = [PHImageRequestOptions new];
+                        options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
+                        options.resizeMode = PHImageRequestOptionsResizeModeFast;
+                        options.networkAccessAllowed = NO;
+                        PHImageRequestID ID = [PHImageManager.defaultManager requestImageForAsset:asset
+                                                                                       targetSize:size
+                                                                                      contentMode:PHImageContentModeAspectFill
+                                                                                          options:options
+                                                                                    resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                                                                                        NSString *channelName = [PhotosLibraryPluginChannelName stringByAppendingFormat:@"/image/%@", identifier];
+                                                                                        NSData *imageData = UIImagePNGRepresentation(result);
+                                                                                        [self.messenger sendOnChannel:channelName message:imageData];
+                                                                                    }];
+                        if(PHInvalidImageRequestID != ID) {
+                            result(@YES);
+                            return TRUE;
+                        }
+                    }
+                }
+            }
+        }
+        result(@NO);
+        return TRUE;
+    }
+    return FALSE;
+}
+
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
     if([self handlePlatformVersion:call result:result]) {
         
@@ -93,6 +152,9 @@
         
     }
     else if([self handleFetchMediaWithType:call result:result]) {
+        
+    }
+    else if([self handleRequestThumbnail:call result:result]) {
         
     }
     else {

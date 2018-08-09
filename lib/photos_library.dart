@@ -19,7 +19,6 @@ enum PhotosLibraryMediaType {
 class PhotosLibrary {
   static const MethodChannel _channel =
       const MethodChannel('flutter.yang.me/photos_library');
-
   static PhotosLibraryAuthorizationStatus _statusIntToAuthorizationStatus(final int status) {
     switch (status) {
       case 0:
@@ -54,5 +53,10 @@ class PhotosLibrary {
       assets.add(asset);
     }
     return assets;
+  }
+
+  static Future<bool> requestThumbnail(String identifier, int width, int height) async {
+    bool ret = await _channel.invokeMethod("requestThumbnail", [identifier, width, height]);
+    return ret;
   }
 }
