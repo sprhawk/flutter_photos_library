@@ -1,19 +1,20 @@
 # photos_library
 
-A flutter plugin to get Photos information from system gallery ( iOS only for now )
+A simple flutter plugin to demo how to interact to system gallery. Only iOS PhotosKit is supported for now:
 
-## Getting Started
+1. get authorization status
+2. request Photos authorization status
+3. fetch assets metadata
+4. fetch assets' thumbnail image in binary form, then sent to flutter side
+5. (in example) display binary-form image with Image.memory
 
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
-
-For help on editing plugin code, view the [documentation](https://flutter.io/platform-plugins/#edit-code).
 
 ## Methods
 
-    1. PhotosLibrary.authorizeationStatus
-    2. PhotosLibrary.requestAuthorization
-    3. PhotosLibrary.requestThumbnail
+1. PhotosLibrary.authorizeationStatus
+2. PhotosLibrary.requestAuthorization
+3. PhotosLibrary.fetchMediaWithType
+4. PhotosLibrary.requestThumbnail
 
 ## Notes
 
