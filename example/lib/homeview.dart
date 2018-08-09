@@ -66,6 +66,19 @@ class HomeState extends State<HomeView> {
     catch(e) {}
   }
 
+  Widget buildGridView() {
+    return GridView.count(
+            crossAxisCount: 3,
+            children: List.generate(_assets.length, (index) {
+              return Center(
+                  child: Text(
+                '$index',
+                style: Theme.of(context).textTheme.headline,
+              ));
+            }),
+          );
+  }
+
   @override
   Widget build(BuildContext context) {
     if(_firstRun) {
@@ -85,21 +98,10 @@ class HomeState extends State<HomeView> {
         RaisedButton(
           child: Text("Load Assets"),
           onPressed: loadAssets,
+        ),
+        Expanded(
+          child: buildGridView(),
         )
-        /*
-        Container(
-          child: GridView.count(
-            crossAxisCount: 3,
-            children: List.generate(100, (index) {
-              return Center(
-                  child: Text(
-                'Item: $index',
-                style: Theme.of(context).textTheme.headline,
-              ));
-            }),
-          ),
-        )
-        */
       ],
     );
   }
