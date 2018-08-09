@@ -44,7 +44,7 @@ class PhotosLibrary {
   }
 
   static Future<List<Asset>> fetchMediaWithType(PhotosLibraryMediaType type) async {
-    List<Map> results = await _channel.invokeMethod("fetchMediaWithType", [type.index]);
+    List<dynamic> results = await _channel.invokeMethod("fetchMediaWithType", [type.index]);
     var assets = List<Asset>();
     for (var item in results) {
       var asset = Asset();
