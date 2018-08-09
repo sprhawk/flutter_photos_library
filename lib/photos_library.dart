@@ -13,12 +13,7 @@ class PhotosLibrary {
   static const MethodChannel _channel =
       const MethodChannel('flutter.yang.me/photos_library');
 
-  static Future<AuthorizationStatus> get authorizeationStatus async {
-    final int status = await _channel.invokeMethod('getAuthorizationStatus');
-    return statusIntToAuthorizationStatus(status);
-  }
-
-  static AuthorizationStatus statusIntToAuthorizationStatus(final int status) {
+  static AuthorizationStatus _statusIntToAuthorizationStatus(final int status) {
     switch (status) {
       case 0:
         return AuthorizationStatus.NotDetermined;
@@ -31,8 +26,13 @@ class PhotosLibrary {
     return AuthorizationStatus.Undefined;
   }
 
+  static Future<AuthorizationStatus> get authorizeationStatus async {
+    final int status = await _channel.invokeMethod('getAuthorizationStatus');
+    return _statusIntToAuthorizationStatus(status);
+  }
+  
   static Future<AuthorizationStatus> get requestAuthorization async {
       final int status = await _channel.invokeMethod('requestAuthorization');
-      return statusIntToAuthorizationStatus(status);
+      return _statusIntToAuthorizationStatus(status);
   }
 }
