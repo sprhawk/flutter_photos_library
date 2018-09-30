@@ -12,7 +12,7 @@ class Asset {
   Asset({this.identifier, this.width, this.height}) {
     const prefix = 'flutter.yang.me/photos_library/image';
     this.channelName = prefix + '/' + this.identifier;
-  };
+  }
 
   void requestThumbnail(int width, int height, void handler(ByteData imageData)) {
     BinaryMessages.setMessageHandler(channelName, (message) {

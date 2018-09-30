@@ -19,7 +19,8 @@ enum PhotosLibraryMediaType {
 class PhotosLibrary {
   static const MethodChannel _channel =
       const MethodChannel('flutter.yang.me/photos_library');
-  static PhotosLibraryAuthorizationStatus _statusIntToAuthorizationStatus(final int status) {
+  static PhotosLibraryAuthorizationStatus _statusIntToAuthorizationStatus(
+      final int status) {
     switch (status) {
       case 0:
         return PhotosLibraryAuthorizationStatus.NotDetermined;
@@ -32,31 +33,37 @@ class PhotosLibrary {
     return PhotosLibraryAuthorizationStatus.Undefined;
   }
 
-  static Future<PhotosLibraryAuthorizationStatus> get authorizeationStatus async {
+  static Future<PhotosLibraryAuthorizationStatus>
+      get authorizeationStatus async {
     final int status = await _channel.invokeMethod('getAuthorizationStatus');
     return _statusIntToAuthorizationStatus(status);
   }
 
-  static Future<PhotosLibraryAuthorizationStatus> get requestAuthorization async {
-      final int status = await _channel.invokeMethod('requestAuthorization');
-      return _statusIntToAuthorizationStatus(status);
+  static Future<PhotosLibraryAuthorizationStatus>
+      get requestAuthorization async {
+    final int status = await _channel.invokeMethod('requestAuthorization');
+    return _statusIntToAuthorizationStatus(status);
   }
 
-  static Future<List<Asset>> fetchMediaWithType(PhotosLibraryMediaType type) async {
-    List<dynamic> results = await _channel.invokeMethod("fetchMediaWithType", [type.index]);
+  static Future<List<Asset>> fetchMediaWithType(
+      PhotosLibraryMediaType type) async {
+    List<dynamic> results =
+        await _channel.invokeMethod("fetchMediaWithType", [type.index]);
     var assets = List<Asset>();
     for (var item in results) {
-      var asset = Asset();
-      asset.identifier = item['identifier'];
-      asset.width = item['width'];
-      asset.height = item['height'];
+      var asset = Asset(
+          identifier: item['identifier'],
+          width: item['width'],
+          height: item['height']);
       assets.add(asset);
     }
     return assets;
   }
 
-  static Future<bool> requestThumbnail(String identifier, int width, int height) async {
-    bool ret = await _channel.invokeMethod("requestThumbnail", [identifier, width, height]);
+  static Future<bool> requestThumbnail(
+      String identifier, int width, int height) async {
+    bool ret = await _channel
+        .invokeMethod("requestThumbnail", [identifier, width, height]);
     return ret;
   }
 }
