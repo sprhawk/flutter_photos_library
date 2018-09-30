@@ -115,7 +115,8 @@ static NSString *const PhotosLibraryPluginChannelName = @"flutter.yang.me/photos
                     if (results.count > 0) {
                         PHAsset* asset = results[0];
                         PHImageRequestOptions* options = [PHImageRequestOptions new];
-                        options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
+                        options.version = PHImageRequestOptionsVersionCurrent;
+                        options.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
                         options.resizeMode = PHImageRequestOptionsResizeModeFast;
                         options.networkAccessAllowed = NO;
                         PHImageRequestID ID = [PHImageManager.defaultManager requestImageForAsset:asset
@@ -123,6 +124,7 @@ static NSString *const PhotosLibraryPluginChannelName = @"flutter.yang.me/photos
                                                                                       contentMode:PHImageContentModeAspectFill
                                                                                           options:options
                                                                                     resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                                                                                        NSLog(@"image:%@", result);
                                                                                         NSString *channelName = [PhotosLibraryPluginChannelName stringByAppendingFormat:@"/image/%@", identifier];
                                                                                         NSData *imageData = UIImagePNGRepresentation(result);
                                                                                         [self.messenger sendOnChannel:channelName message:imageData];
