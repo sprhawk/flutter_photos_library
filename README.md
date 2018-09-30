@@ -20,6 +20,14 @@ A simple flutter plugin to demo how to interact to system gallery. Only iOS Phot
 
 For authorizing to [Photos library](https://developer.apple.com/documentation/photokit), you need to add [NSPhotoLibraryUsageDescription](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/plist/info/NSPhotoLibraryUsageDescription) into your info.plist in project
 
+## History:
+
+### Version 0.0.3:
+
+1. Breaking API of 0.0.2
+2. changed deliverMode to PHImageRequestOptionsDeliveryModeOpportunistic for `[PHImageManager requestImageForAsset:targetSize:contentMode:options:resultHandler:]` message. using PHImageRequestOptionsDeliveryModeFastFormat makes API only return very low resolution image. but using PHImageRequestOptionsDeliveryModeOpportunistic makes multiple calls to get different resolution images, so
+3. Because 2. has multiple calls to get images, in 0.0.2, the message handler is set inside Asset instance, but Dart's object doesn't have a deconstructor like method to call unregister message handler, and I move the example's AssetView into lib, and have the unregistering inside deactive of the Widget.
+
 
 ## [License](license.md)
 
