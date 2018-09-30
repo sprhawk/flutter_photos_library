@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:photos_library/photos_library.dart';
 import 'package:photos_library/asset.dart';
-
-import 'assetview.dart';
+import 'package:photos_library/assetview.dart';
 
 class HomeView extends StatefulWidget {
   @override

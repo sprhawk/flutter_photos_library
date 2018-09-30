@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
-import 'package:photos_library/asset.dart';
+import 'asset.dart';
 
 class AssetView extends StatefulWidget {
   final int index;
