@@ -1,41 +1,56 @@
+import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
 import 'package:photos_library/asset.dart';
 
 class AssetView extends StatefulWidget {
-  final int _index;
-  final Asset _asset;
-
-  AssetView(this._index, this._asset);
+  final int index;
+  final Asset asset;
+  final double width;
+  final double height;
+  AssetView(
+      {@required this.index, @required this.asset, this.width, this.height});
 
   @override
-  State<StatefulWidget> createState() => AssetState(this._index, this._asset);
+  State<StatefulWidget> createState() => AssetState(
+      index: this.index,
+      asset: this.asset,
+      width: this.width,
+      height: this.height);
 }
 
 class AssetState extends State<AssetView> {
-  int _index = 0;
-  Asset _asset;
-  AssetState(this._index, this._asset);
+  int index = 0;
+  Asset asset;
+  final double width;
+  final double height;
+  AssetState(
+      {@required this.index, @required this.asset, this.width, this.height});
 
   @override
   void initState() {
     super.initState();
 
-    this._asset.requestThumbnail(1000, 1000, (imageData) {
+    this.asset.requestThumbnail(this.width.toInt(), this.height.toInt(),
+        (imageData) {
       setState(() {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (null != this._asset.imageData) {
-      return Image.memory(
-        this._asset.imageData.buffer.asUint8List(),
+    if (null != this.asset.imageData) {
+      var image = Image.memory(
+        this.asset.imageData.buffer.asUint8List(),
         fit: BoxFit.cover,
+        width: this.width,
+        height: this.height,
       );
+
+      return image;
     }
 
     return Text(
-      '${this._index}',
+      '${this.index}',
       style: Theme.of(context).textTheme.headline,
     );
   }

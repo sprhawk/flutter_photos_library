@@ -14,7 +14,8 @@ class HomeView extends StatefulWidget {
 class HomeState extends State<HomeView> {
   final _assets = List<Asset>();
   bool _firstRun = true;
-  PhotosLibraryAuthorizationStatus _status = PhotosLibraryAuthorizationStatus.NotDetermined;
+  PhotosLibraryAuthorizationStatus _status =
+      PhotosLibraryAuthorizationStatus.NotDetermined;
 
   Widget buildStatus(BuildContext context) {
     String statusString = "Unknown status";
@@ -43,43 +44,47 @@ class HomeState extends State<HomeView> {
 
   void refreshStatus() async {
     try {
-      _status = await PhotosLibrary.authorizeationStatus;
-      print("status: $_status");
-      setState(() {});
+      var status = await PhotosLibrary.authorizeationStatus;
+      print("status: $status");
+      setState(() {
+        this._status = status;
+      });
     } catch (e) {}
   }
 
   void requestAuthorization() async {
     try {
-      _status = await PhotosLibrary.requestAuthorization;
-      setState(() {});
-    }
-    catch(e) {}
+      var status = await PhotosLibrary.requestAuthorization;
+      setState(() {
+        this._status = status;
+      });
+    } catch (e) {}
   }
 
   void loadAssets() async {
     try {
-      var assets = await PhotosLibrary.fetchMediaWithType(PhotosLibraryMediaType.Photo);
+      var assets =
+          await PhotosLibrary.fetchMediaWithType(PhotosLibraryMediaType.Photo);
       setState(() {
-        _assets.clear();
-        _assets.addAll(assets);
+        this._assets.clear();
+        this._assets.addAll(assets);
       });
-    }
-    catch(e) {}
+    } catch (e) {}
   }
 
   Widget buildGridView() {
     return GridView.count(
-            crossAxisCount: 3,
-            children: List.generate(_assets.length, (index) {
-              return AssetView(index, _assets[index]);
-            }),
-          );
+      crossAxisCount: 3,
+      children: List.generate(_assets.length, (index) {
+        return AssetView(
+            index: index, asset: _assets[index], width: 300.0, height: 300.0);
+      }),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    if(_firstRun) {
+    if (_firstRun) {
       refreshStatus();
       _firstRun = false;
     }
