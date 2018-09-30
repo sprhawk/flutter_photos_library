@@ -77,7 +77,7 @@ class HomeState extends State<HomeView> {
       crossAxisCount: 3,
       children: List.generate(_assets.length, (index) {
         return AssetView(
-            index: index, asset: _assets[index], width: 300.0, height: 300.0);
+            index: index, asset: _assets[index], width: 1000.0, height: 1000.0);
       }),
     );
   }
