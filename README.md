@@ -22,6 +22,9 @@ For authorizing to [Photos library](https://developer.apple.com/documentation/ph
 
 ## History:
 
+### Version 0.0.4:
+1. added @required to width and height parameters
+
 ### Version 0.0.3:
 
 1. Breaking API of 0.0.2

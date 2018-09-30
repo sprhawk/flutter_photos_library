@@ -1,6 +1,6 @@
 name: photos_library
 description: A simple plugin to demo how to interact with iOS PhotosKit API
-version: 0.0.3
+version: 0.0.4
 author: Yang Hongbo <465558+sprhawk@users.noreply.github.com>
 homepage: https://github.com/sprhawk/flutter_photos_library
 
