@@ -9,7 +9,7 @@ class AssetView extends StatefulWidget {
   final double width;
   final double height;
   AssetView(
-      {@required this.index, @required this.asset, this.width, this.height});
+      {@required this.index, @required this.asset, @required this.width, @required this.height});
 
   @override
   State<StatefulWidget> createState() => AssetState(
@@ -29,7 +29,7 @@ class AssetState extends State<AssetView> {
   String _channelName;
 
   AssetState(
-      {@required this.index, @required this.asset, this.width, this.height}) {
+      {@required this.index, @required this.asset, @required this.width, @required this.height}) {
     const prefix = 'flutter.yang.me/photos_library/image';
     this._channelName = prefix + '/' + this.asset.identifier;
   }
