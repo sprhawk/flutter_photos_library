@@ -40,8 +40,7 @@ class AssetState extends State<AssetView> {
     super.initState();
 
     this._requestThumbnail(
-        width: this.width.toInt(),
-        height: this.height.toInt());
+        width: this.width.toInt(), height: this.height.toInt());
   }
 
   @override
@@ -50,13 +49,10 @@ class AssetState extends State<AssetView> {
     BinaryMessages.setMessageHandler(this._channelName, null);
   }
 
-  void _requestThumbnail(
-      {int width, int height}) {
+  void _requestThumbnail({int width, int height}) {
     BinaryMessages.setMessageHandler(this._channelName, (message) {
       this._imageData = message;
-      setState(() {
-              
-            });
+      setState(() {});
     });
 
     PhotosLibrary.requestThumbnail(this.asset.identifier, width, height);
@@ -65,14 +61,16 @@ class AssetState extends State<AssetView> {
   @override
   Widget build(BuildContext context) {
     if (null != this._imageData) {
-      var image = Image.memory(
-        this._imageData.buffer.asUint8List(),
-        fit: BoxFit.cover,
-        width: this.width,
-        height: this.height,
+      return AnimatedSwitcher(
+        duration: const Duration(milliseconds: 2000),
+        child: Image.memory(
+          this._imageData.buffer.asUint8List(),
+          fit: BoxFit.cover,
+          width: this.width,
+          height: this.height,
+        ),
+        key: ValueKey<ByteData>(this._imageData),
       );
-
-      return image;
     }
 
     return Text(
