@@ -1,3 +1,5 @@
+ARCHIVED: I'm not working on flutter recently, so this lib will not be updated.
+
 # photos_library
 
 A simple flutter plugin to demo how to interact to system gallery. Only iOS PhotosKit is supported for now:
